@@ -1,7 +1,13 @@
+# Makefile for production setup with PostgreSQL
+
 all:
 	dotnet restore
 	dotnet build --configuration Release --no-restore /property:GenerateFullPaths=true /consoleloggerparameters:NoSummary
-	dotnet run
+	PG_DBNAME=postgres \
+						PG_HOST=localhost \
+						PG_USER=postgres \
+						PG_PASSWORD=mysecretpassword \
+						ASPNETCORE_ENVIRONMENT=Production dotnet run
 
 migrate:
 	#dotnet tool install --global dotnet-ef

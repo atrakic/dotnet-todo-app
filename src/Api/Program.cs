@@ -9,22 +9,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.AddTransient<ITodoService, TodoService>();
 builder.Services.AddDbContext<TodoGroupDbContext>(options =>
 {
-    var folder = Environment.SpecialFolder.LocalApplicationData;
-    var path = Environment.GetFolderPath(folder);
-    var DbPath = System.IO.Path.Join(path, "TodoApi.sqlite");
-    options.UseSqlite($"Data Source={DbPath}");
+  var pgDbname = Environment.GetEnvironmentVariable("PG_DBNAME");
+  var pgHost = Environment.GetEnvironmentVariable("PG_HOST");
+  var pgUser = Environment.GetEnvironmentVariable("PG_USER");
+  var pgPassword = Environment.GetEnvironmentVariable("PG_PASSWORD");
+  options.UseNpgsql($"Host={pgHost};Database={pgDbname};Username={pgUser};Password={pgPassword}");
 });
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+  app.UseDeveloperExceptionPage();
+  app.UseSwagger();
+  app.UseSwaggerUI();
 }
 
 using var scope = app.Services.CreateScope();

@@ -3,18 +3,33 @@ services:
     build: ./src/Api
     ports:
       - 5000:5000
-  db:
     environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: example_123
-    # mssql server image isn't available for arm64 architecture, so we use azure-sql instead
-    image: mcr.microsoft.com/azure-sql-edge:1.0.4
-    # If you really want to use MS SQL Server, uncomment the following line
-    #image: mcr.microsoft.com/mssql/server
+      - ASPNETCORE_ENVIRONMENT=Development
+      - PG_DBNAME=postgres
+      - PG_HOST=db
+      - PG_USER=postgres
+      - PG_PASSWORD=mysecretpassword
+    networks:
+      - client-side
+      - server-side
+    depends_on:
+      - db
+  db:
+    image: postgres:12-alpine
     restart: always
-    healthcheck:
-        test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P example_123 -Q 'SELECT 1' || exit 1"]
-        interval: 10s
-        retries: 10
-        start_period: 10s
-        timeout: 3s     
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+    networks:
+      - server-side
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+networks:
+  client-side: {}
+  server-side: {}
+
+volumes:
+  backend-cache: {}
+  db-data: {}  
