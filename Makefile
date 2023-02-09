@@ -29,7 +29,7 @@ integration-test: ## Integration test
 	popd
 
 e2e: ## e2e test
-	[ -f ./tests/test.sh ] && ./tests/test.sh || true
+	[ -f ./tests/e2e.sh ] && ./tests/e2e.sh || true
 
 docker-up:
 	docker-compose up --build --force-recreate -d

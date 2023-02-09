@@ -19,6 +19,18 @@ builder.Services.AddDbContext<TodoGroupDbContext>(options =>
   options.UseNpgsql($"Host={pgHost};Database={pgDbname};Username={pgUser};Password={pgPassword}");
 });
 
+builder.Services.AddCors(options =>
+{
+  options.AddPolicy(name: "AllowAll",
+                    policy =>
+                    {
+                        policy
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -27,6 +39,7 @@ if (app.Environment.IsDevelopment())
   app.UseSwagger();
   app.UseSwaggerUI();
 }
+app.UseCors("AllowAll");
 
 using var scope = app.Services.CreateScope();
 
