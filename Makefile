@@ -3,7 +3,11 @@ MAKEFLAGS += --silent
 
 BASEDIR=$(shell git rev-parse --show-toplevel)
 
-all: build db ## Run this app
+all: ## Run full stack with docker-compose
+	docker-compose up --build --force-recreate -d
+	$(MAKE) e2e
+
+local: build db ## Run local api
 	PG_DBNAME=postgres \
 	PG_HOST=localhost \
 	PG_USER=postgres \
@@ -31,8 +35,6 @@ integration-test: ## Integration test
 e2e: ## e2e test
 	[ -f ./tests/e2e.sh ] && ./tests/e2e.sh || true
 
-docker-up:
-	docker-compose up --build --force-recreate -d
 
 clean: ## Clean up
 	rm -rf ${BASEDIR}/src/Api/bin

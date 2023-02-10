@@ -6,6 +6,7 @@ ARG BASE_IMAGE_RUNTIME=dotnet/aspnet
 
 FROM ${BASE_IMAGE_REPO}/${BASE_IMAGE_RUNTIME}:${BASE_IMAGE_TAG} as base
 EXPOSE 5000
+RUN apt-get update && apt-get install -y curl && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 FROM ${BASE_IMAGE_REPO}/${BASE_IMAGE_BUILD}:${BASE_IMAGE_TAG} AS build
 ARG Configuration=Release

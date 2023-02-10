@@ -27,6 +27,11 @@ services:
     networks:
       - client-side
       - server-side
+    healthcheck:
+      test: /healthchecks/curl.sh
+      interval: "15s"
+    volumes:
+      - ./healthchecks:/healthchecks
     depends_on:
       - db
   db:
@@ -38,9 +43,12 @@ services:
       - server-side
     ports:
       - 5432:5432
+    healthcheck:
+      test: /healthchecks/postgres.sh
+      interval: "15s"
     volumes:
       - db-data:/var/lib/postgresql/data
-
+      - ./healthchecks:/healthchecks
 networks:
   client-side: {}
   server-side: {}
