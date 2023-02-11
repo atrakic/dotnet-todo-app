@@ -6,6 +6,7 @@ ARG BASE_IMAGE_RUNTIME=dotnet/aspnet
 
 FROM ${BASE_IMAGE_REPO}/${BASE_IMAGE_RUNTIME}:${BASE_IMAGE_TAG} as base
 EXPOSE 5000
+WORKDIR /app
 RUN apt-get update && apt-get install -y curl && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 FROM ${BASE_IMAGE_REPO}/${BASE_IMAGE_BUILD}:${BASE_IMAGE_TAG} AS build
@@ -15,10 +16,10 @@ COPY . .
 RUN dotnet build "TodoApi.csproj" -c "${Configuration}" -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "TodoApi.csproj" -c Release -o /app/publish
+RUN dotnet publish "TodoApi.csproj" -c Release -o publish
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=publish /src/publish .
 ENV DOTNET_EnableDiagnostics=0
 ENTRYPOINT ["dotnet", "TodoApi.dll"]
