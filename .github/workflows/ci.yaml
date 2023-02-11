@@ -1,4 +1,4 @@
-name: build and test
+name: ci
 
 on:
   push:
@@ -13,9 +13,8 @@ env:
   DOTNET_VERSION: '7.0.102' # The .NET SDK version to use
 
 jobs:
-  build-and-test:
-
-    name: build-and-test-${{matrix.os}}
+  ci:
+    name: ci-${{matrix.os}}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
