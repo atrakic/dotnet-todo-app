@@ -4,8 +4,12 @@ COPY . /usr/app
 
 ARG API_URL=http://api/todos/v1
 ENV REACT_APP_API_URL $API_URL
+
+ARG NODE_ENV=production
+ENV NODE_ENV $NODE_ENV
+
 RUN npm install
-RUN npm ci
+#RUN npm ci
 RUN npm run build
 
 ##

@@ -4,12 +4,15 @@ services:
     build:
       context: ./src/web
       args:
+        - NODE_ENV=development
         - API_URL=http://localhost:5000/todos/v1
-    networks:
-      - client-side
+    environment:
+      - NODE_ENV=development
     ports:
       - 80:8080
     restart: always
+    networks:
+      - client-side
     volumes:
       - ./src/web/src:/code/src:ro
     depends_on:
