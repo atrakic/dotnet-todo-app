@@ -38,10 +38,10 @@ e2e: ## e2e test
 clean: ## Clean up
 	rm -rf ${BASEDIR}/src/Api/bin
 	rm -rf ${BASEDIR}/src/Api/obj
-	rm -rf ${BASEDIR}/src/frontend/node_modules
+	rm -rf ${BASEDIR}/src/web/node_modules
 	docker-compose stop || true
 
-test: 
+test: ## .NET Test Driver
 	dotnet test --no-restore --verbosity normal
 
 release: ## Release (eg. V=0.0.1)
