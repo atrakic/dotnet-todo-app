@@ -4,7 +4,7 @@ MAKEFLAGS += --silent
 BASEDIR=$(shell git rev-parse --show-toplevel)
 
 all: ## Run full stack with docker-compose
-	docker-compose up --build --force-recreate -d
+	docker-compose up --build --remove-orphans --force-recreate -d
 	$(MAKE) e2e
 
 local: build db ## Run local api
