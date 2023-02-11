@@ -10,18 +10,23 @@ EXPOSE 80
 EXPOSE 443
 RUN apt-get update && apt-get install -y curl && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+# FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 FROM ${BASE_IMAGE_REPO}/${BASE_IMAGE_BUILD}:${BASE_IMAGE_TAG} AS build
 WORKDIR /src
-ARG Configuration=Release
-COPY . .
-RUN dotnet restore "TodoApi.csproj"
-RUN dotnet build "TodoApi.csproj" -c "${Configuration}" -o /app/build
 
-FROM build AS publish
-RUN dotnet publish "TodoApi.csproj" -c Release -o /app/publish
+# copy csproj and restore as distinct layers
+COPY *.csproj .
+RUN dotnet restore --use-current-runtime 
+
+#FROM build AS publish
+# copy everything else and build app
+COPY . .
+ARG Configuration=Release
+RUN dotnet publish -c "${Configuration}" -o /app --use-current-runtime --self-contained false --no-restore
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app .
+#COPY --from=publish /app/publish .
 ENV DOTNET_EnableDiagnostics=0
 ENTRYPOINT ["dotnet", "TodoApi.dll"]
