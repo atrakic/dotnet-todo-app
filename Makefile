@@ -4,6 +4,7 @@ MAKEFLAGS += --silent
 BASEDIR=$(shell git rev-parse --show-toplevel)
 
 all: ## Run full stack with docker-compose
+	#DOCKER_DEFAULT_PLATFORM=linux/amd64
 	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose up --build --remove-orphans --force-recreate -d
 	$(MAKE) e2e
 

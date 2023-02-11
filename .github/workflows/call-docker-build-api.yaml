@@ -68,7 +68,8 @@ jobs:
 
       ### build stage to target, defaults to empty, which builds to last stage in Dockerfile
       # target:
-      
+     
+      # See: https://devblogs.microsoft.com/dotnet/announcing-builtin-container-support-for-the-dotnet-sdk/#tldr 
       ### platforms to build for, defaults to linux/amd64
       ### other options: linux/amd64,linux/arm64,linux/arm/v7
       #platforms: linux/amd64,linux/arm64
