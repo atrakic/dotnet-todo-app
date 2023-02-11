@@ -1,12 +1,15 @@
-# TodoApi
+# dotnet-todo-app
 
-[![build and test](https://github.com/atrakic/TodoApi/actions/workflows/ci.yaml/badge.svg)](https://github.com/atrakic/TodoApi/actions/workflows/ci.yaml)
+[![Build Web](https://github.com/atrakic/dotnet-todo-app/actions/workflows/call-docker-build-web.yaml/badge.svg)](https://github.com/atrakic/dotnet-todo-app/actions/workflows/call-docker-build-web.yaml)
+[![Build API](https://github.com/atrakic/dotnet-todo-app/actions/workflows/call-docker-build-api.yaml/badge.svg)](https://github.com/atrakic/dotnet-todo-app/actions/workflows/call-docker-build-api.yaml)
 
-### Full stack with Csharp + React + PostgreSQL.
+### Full stack app with DotNet + React + PostgreSQL.
 
 ## Requirements
 - Dotnet core SDK 7.0 [install](https://dotnet.microsoft.com/download/dotnet-core/7.0)
 - Node
+
+## Optional
 - docker-compose
 - docker
 

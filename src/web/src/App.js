@@ -30,7 +30,7 @@ function Get() {
           );
         })
       ) : (
-        <h3>No data yet</h3>
+        <h3>No API data from: {process.env.REACT_APP_API_URL}</h3>
       );
     }
     return (

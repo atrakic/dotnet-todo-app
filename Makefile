@@ -4,7 +4,8 @@ MAKEFLAGS += --silent
 BASEDIR=$(shell git rev-parse --show-toplevel)
 
 all: ## Run full stack with docker-compose
-	docker-compose up --build --force-recreate -d
+	#DOCKER_DEFAULT_PLATFORM=linux/amd64
+	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose up --build --remove-orphans --force-recreate -d
 	$(MAKE) e2e
 
 local: build db ## Run local api
@@ -35,14 +36,20 @@ integration-test: ## Integration test
 e2e: ## e2e test
 	[ -f ./tests/e2e.sh ] && ./tests/e2e.sh || true
 
-
 clean: ## Clean up
 	rm -rf ${BASEDIR}/src/Api/bin
 	rm -rf ${BASEDIR}/src/Api/obj
+	rm -rf ${BASEDIR}/src/web/node_modules
 	docker-compose stop || true
 
-test: 
+test: ## .NET Test Driver
 	dotnet test --no-restore --verbosity normal
+
+release: ## Release (eg. V=0.0.1)
+	 @[ "$(V)" ] \
+		 && read -p "Press enter to confirm and push tag v$(V) to origin, <Ctrl+C> to abort ..." \
+		 && git tag v$(V) -m "v$(V)" \
+		 && git push origin v$(V)
 
 help: 
 	awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)

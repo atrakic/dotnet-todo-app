@@ -1,17 +1,17 @@
 # https://stackoverflow.com/questions/69115729/neterr-name-not-resolved-docker
 services:
-  frontend:
+  web:
     build:
-      context: ./src/Frontend
-    environment:
-      - REACT_APP_API_URL=http://localhost:5000/todos/v1
+      context: ./src/web
+      args:
+        - API_URL=http://localhost:5000/todos/v1
     networks:
       - client-side
     ports:
-      - 3000:3000
+      - 80:8080
     restart: always
     volumes:
-      - ./src/Frontend/src:/code/src:ro
+      - ./src/web/src:/code/src:ro
     depends_on:
       - api
   api:
