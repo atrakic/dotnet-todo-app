@@ -1,5 +1,6 @@
 # dotnet-todo-app
 
+[![ci](https://github.com/atrakic/dotnet-todo-app/actions/workflows/ci.yaml/badge.svg)](https://github.com/atrakic/dotnet-todo-app/actions/workflows/ci.yaml)
 [![Build Web](https://github.com/atrakic/dotnet-todo-app/actions/workflows/call-docker-build-web.yaml/badge.svg)](https://github.com/atrakic/dotnet-todo-app/actions/workflows/call-docker-build-web.yaml)
 [![Build API](https://github.com/atrakic/dotnet-todo-app/actions/workflows/call-docker-build-api.yaml/badge.svg)](https://github.com/atrakic/dotnet-todo-app/actions/workflows/call-docker-build-api.yaml)
 
