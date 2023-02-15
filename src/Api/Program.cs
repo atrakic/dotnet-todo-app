@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using TodoApi;
 using TodoApi.Data;
 using TodoApi.Services;
@@ -34,7 +35,10 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-app.MapHealthChecks("/healthz");
+app.MapHealthChecks("/healthz", new HealthCheckOptions
+{
+    AllowCachingResponses = false
+});
 
 if (app.Environment.IsDevelopment())
 {
