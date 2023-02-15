@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using TodoApi;
 using TodoApi.Data;
 using TodoApi.Services;
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHealthChecks();
 
 builder.Services.AddTransient<ITodoService, TodoService>();
 builder.Services.AddDbContext<TodoGroupDbContext>(options =>
@@ -21,17 +23,22 @@ builder.Services.AddDbContext<TodoGroupDbContext>(options =>
 
 builder.Services.AddCors(options =>
 {
-  options.AddPolicy(name: "AllowAll",
-                    policy =>
-                    {
-                        policy
-                            .AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader();
-                    });
+  options.AddPolicy(
+      name: "AllowAll",
+      policy =>
+      {
+          policy
+              .AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+      });
 });
 
 var app = builder.Build();
+app.MapHealthChecks("/healthz", new HealthCheckOptions
+{
+    AllowCachingResponses = false
+});
 
 if (app.Environment.IsDevelopment())
 {
