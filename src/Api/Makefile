@@ -3,15 +3,16 @@
 all:
 	dotnet restore
 	dotnet build --configuration Release --no-restore /property:GenerateFullPaths=true /consoleloggerparameters:NoSummary
-	PG_DBNAME=postgres \
-						PG_HOST=localhost \
-						PG_USER=postgres \
-						PG_PASSWORD=mysecretpassword \
-						ASPNETCORE_ENVIRONMENT=Production dotnet run
+	CONNECTION_STRING="Host=localhost;Database=postgres;Username=postgres;Password=mysecretpassword;" \
+	ASPNETCORE_ENVIRONMENT=Production dotnet run
 
 migrate:
 	#dotnet tool install --global dotnet-ef
-	dotnet ef migrations add InitialCreate
+	ls -A ./Migrations| grep -v .keep || \
+		CONNECTION_STRING="Host=localhost;Database=postgres;Username=postgres;Password=mysecretpassword;" \
+		dotnet ef migrations add InitialCreate
+	CONNECTION_STRING="Host=localhost;Database=postgres;Username=postgres;Password=mysecretpassword;" \
+	dotnet ef database update
 
 clean:
 	dotnet clean

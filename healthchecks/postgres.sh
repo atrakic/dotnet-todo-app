@@ -14,8 +14,9 @@ args=(
 	--quiet --no-align --tuples-only
 )
 
-if select="$(echo 'SELECT 1' | psql "${args[@]}")" && [ "$select" = '1' ]; then
-	exit 0
+if select="$(echo 'SELECT NOW()' | psql "${args[@]}")"; then
+  echo "$host: $select"
+  exit 0
 fi
 
 exit 1

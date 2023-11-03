@@ -4,6 +4,7 @@
 *.md
 .gitignore
 node_modules
+npm-debug.log
 build
 .dockerignore
 Dockerfile

@@ -2,22 +2,27 @@
 set -e
 set -o pipefail
 
-json=$(cat <<-END
+scraped_json=$(cat <<-END
     {
     "title": "$(echo $RANDOM)",
-     "description": "$(curl -s -X POST https://lipsum.com/feed/json -d "amount=1" -d "what=lines" -H 'accept: text/plain' | jq -r '.feed.lipsum')",
+    "description": "$(curl -s -X POST https://lipsum.com/feed/json -d "amount=1" -d "what=lines" -H 'accept: text/plain' | jq -r '.feed.lipsum')",
     "isDone": false
     }
 END
 )
 
+
+API_PORT=5000
+
 curl -fik -X 'POST' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
-  -d "$json" 'http://localhost:5000/todos/v1' \
+  -d "$scraped_json" \
+  http://localhost:${API_PORT}/todos/v1
 
 curl -s -X 'GET' \
-  'http://localhost:5000/todos/v1' \
-  -H 'accept: application/json' | jq -r
+  -H 'accept: application/json' \
+  http://localhost:${API_PORT}/todos/v1 | jq -r
 
-## docker exec -it todoapi-db-1 psql -h localhost -U postgres -w mysecretpassword -d postgres -c '\dt'
+
+docker exec -it db psql -h localhost -U postgres -d lipsum-api -c 'select count(*) from "Todos";'

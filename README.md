@@ -21,12 +21,11 @@ $ make
 
 Usage:
   make <target>
-  all                 Run full stack with docker-compose
-  local               Run Api (dotnet)
-  build               Build Api (dotnet) 
-  db                  Start database with docker-compose
-  unit-test           Unit test
-  integration-test    Integration test
-  e2e                 e2e test
-  clean               Clean up
+  all                   Run full stack with docker-compose
+  build                 Build
+  run                   Run local api
+  unit-test             Unit test
+  integration-test      Integration test
+  e2e                   e2e test
+  clean                 Clean up
 ```

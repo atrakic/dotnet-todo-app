@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function Get() {
+function App() {
     const [data, setData]  = useState('');
     const getAllData = () => {
         axios.get(process.env.REACT_APP_API_URL)
@@ -40,4 +40,4 @@ function Get() {
     );
   }
 
-export default Get;
+export default App;

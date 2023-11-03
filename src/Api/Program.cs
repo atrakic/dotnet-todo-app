@@ -1,9 +1,11 @@
+using EFCore.NamingConventions.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using TodoApi;
 using TodoApi.Data;
 using TodoApi.Services;
 
+var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 var builder = WebApplication.CreateBuilder(args);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -13,13 +15,8 @@ builder.Services.AddHealthChecks();
 
 builder.Services.AddTransient<ITodoService, TodoService>();
 builder.Services.AddDbContext<TodoGroupDbContext>(options =>
-{
-  var pgDbname = Environment.GetEnvironmentVariable("PG_DBNAME");
-  var pgHost = Environment.GetEnvironmentVariable("PG_HOST");
-  var pgUser = Environment.GetEnvironmentVariable("PG_USER");
-  var pgPassword = Environment.GetEnvironmentVariable("PG_PASSWORD");
-  options.UseNpgsql($"Host={pgHost};Database={pgDbname};Username={pgUser};Password={pgPassword}");
-});
+    options.UseNpgsql(connectionString));
+//    options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
 
 builder.Services.AddCors(options =>
 {

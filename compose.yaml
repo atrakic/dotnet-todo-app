@@ -1,15 +1,16 @@
-# https://stackoverflow.com/questions/69115729/neterr-name-not-resolved-docker
 services:
   web:
     build:
       context: ./src/web
       args:
-        - NODE_ENV=development
-        - API_URL=http://localhost:5000/todos/v1
+        ## https://stackoverflow.com/questions/69115729/neterr-name-not-resolved-docker
+        ## API_URL: "http://api:80/todos/v1"
+        API_URL: "http://localhost:5000/todos/v1"
+    container_name: web
     environment:
       - NODE_ENV=development
     ports:
-      - 80:8080
+      - 3000:80
     restart: always
     networks:
       - client-side
@@ -19,14 +20,13 @@ services:
       - api
   api:
     build: ./src/Api
+    container_name: api
     ports:
       - 5000:80
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
       - Configuration=Release
-      - PG_DBNAME=postgres
-      - PG_HOST=db
-      - PG_USER=postgres
-      - PG_PASSWORD=mysecretpassword
+      - CONNECTION_STRING=Host=db;Database=lipsum-api;Username=postgres;Password=mysecretpassword;
     networks:
       - client-side
       - server-side
@@ -36,12 +36,15 @@ services:
     volumes:
       - ./healthchecks:/healthchecks
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   db:
     image: postgres:12-alpine
     restart: always
+    container_name: db
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=lipsum-api
     networks:
       - server-side
     ports:
