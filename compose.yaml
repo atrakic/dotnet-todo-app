@@ -18,6 +18,18 @@ services:
       - ./src/web/src:/code/src:ro
     depends_on:
       - api
+  scrapper:
+    build:
+      context: ./src/scrapper
+    container_name: scrapper
+    networks:
+      - server-side
+    environment:
+      - API_PORT=80
+      - HOST=api
+    depends_on:
+      api:
+        condition: service_healthy
   api:
     build: ./src/Api
     container_name: api
@@ -55,6 +67,7 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./healthchecks:/healthchecks
+
 networks:
   client-side: {}
   server-side: {}
