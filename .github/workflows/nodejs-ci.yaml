@@ -1,4 +1,4 @@
-name: Node.js-ci
+name: node.js-ci
 
 on:
     workflow_dispatch:
