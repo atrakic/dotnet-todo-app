@@ -5,8 +5,8 @@ import axios from 'axios';
 function App() {
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(5);
-    
+    const [itemsPerPage] = useState(5);
+
     const getAllData = () => {
         axios.get(process.env.REACT_APP_API_URL)
             .then((response) => {
