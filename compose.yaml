@@ -73,5 +73,7 @@ networks:
   server-side: {}
 
 volumes:
-  backend-cache: {}
-  db-data: {}
+  db-data:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
