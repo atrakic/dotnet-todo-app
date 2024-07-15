@@ -1,19 +1,22 @@
-name: ci
+name: dotnet-ci
 
 on:
-  push:
   workflow_dispatch:
+  push:
+    paths:
+      - '**.cs'
+      - '**.csproj'
   pull_request:
     branches: [ main ]
     paths:
-    - '**.cs'
-    - '**.csproj'
+      - '**.cs'
+      - '**.csproj'
 
 env:
   DOTNET_VERSION: '7.0.102' # The .NET SDK version to use
 
 jobs:
-  ci:
+  dotnet-ci:
     name: ci-${{matrix.os}}
     runs-on: ${{ matrix.os }}
     strategy:

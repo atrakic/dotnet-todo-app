@@ -7,6 +7,8 @@ HOST=${HOST:-api}
 SLEEP=5
 
 while true; do
+  title=$(echo $(for((i=1;i<=13;i++)); do printf '%s' "${RANDOM:0:1}"; done) | tr '[0-9]' '[a-z]')
+  feed=$(curl -s -X POST https://lipsum.com/feed/json -d "amount=1" -d "what=lines" -H 'accept: text/plain' | jq -r '.feed.lipsum')
   scraped_json=$(cat <<-END
   {
     "title": "$title",
@@ -15,8 +17,6 @@ while true; do
   }
 END
 )
-  title=$(echo $(for((i=1;i<=13;i++)); do printf '%s' "${RANDOM:0:1}"; done) | tr '[0-9]' '[a-z]')
-  feed=$(curl -s -X POST https://lipsum.com/feed/json -d "amount=1" -d "what=lines" -H 'accept: text/plain' | jq -r '.feed.lipsum')
   id=$(curl -s -X 'POST' \
     -H 'accept: */*' \
     -H 'Content-Type: application/json' \

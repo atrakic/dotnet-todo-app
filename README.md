@@ -1,14 +1,13 @@
 # dotnet-todo-app
 
-[![ci](https://github.com/atrakic/dotnet-todo-app/actions/workflows/ci.yaml/badge.svg)](https://github.com/atrakic/dotnet-todo-app/actions/workflows/ci.yaml)
-[![Build Web](https://github.com/atrakic/dotnet-todo-app/actions/workflows/call-docker-build-web.yaml/badge.svg)](https://github.com/atrakic/dotnet-todo-app/actions/workflows/call-docker-build-web.yaml)
-[![Build API](https://github.com/atrakic/dotnet-todo-app/actions/workflows/call-docker-build-api.yaml/badge.svg)](https://github.com/atrakic/dotnet-todo-app/actions/workflows/call-docker-build-api.yaml)
+[![dotnet-ci](https://github.com/atrakic/dotnet-todo-app/actions/workflows/dotnet-ci.yaml/badge.svg)](https://github.com/atrakic/dotnet-todo-app/actions/workflows/dotnet-ci.yaml)
+[![Node.js-ci](https://github.com/atrakic/dotnet-todo-app/actions/workflows/nodejs-ci.yaml/badge.svg)](https://github.com/atrakic/dotnet-todo-app/actions/workflows/nodejs-ci.yaml)
 
 ### Full stack app with DotNet + React + PostgreSQL.
 
 ## Requirements
 - Dotnet core SDK 7.0 [install](https://dotnet.microsoft.com/download/dotnet-core/7.0)
-- Node
+- NodeJs
 
 ## Optional
 - docker-compose
